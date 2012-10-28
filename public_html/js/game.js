@@ -1,8 +1,17 @@
+// enchant.jsのひな形
+
 enchant();
 
 window.onload = function() {
-var game = new Game(300, 300);
-game.onload = function() {
-}
-game.start();
+
+  // ゲームクラスのインスタンス
+  var game = new Game(300, 300);
+
+  // メインループ
+  game.onload = function() {
+    // 処理をここに書く
+  }
+
+  // ゲーム開始
+  game.start();
 }
