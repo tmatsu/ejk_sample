@@ -10,11 +10,17 @@ window.onload = function() {
   game.preload('img/space3.gif');
 
   game.onload = function() {
+    kumas = [];
 
-    // キャラクターのスプライトを生成
-    x = Math.random() * 300;
-    y = 0;
-    var Kuma = new KumaSprite(x, y);
+    game.rootScene.addEventListener('enterframe',function() {
+      // キャラクターのスプライトを生成
+      x = Math.random() * (300 - 32);
+      y = 0;
+      var Kuma = new KumaSprite(x, y);
+//      kumas[game.frame] = Kuma;
+
+      Kuma.movedown();
+    });
 
     // キャラクターをSceneオブジェクトに追加する
     game.rootScene.addChild(Kuma);
@@ -39,13 +45,23 @@ var KumaSprite = Class.create(Sprite, {
 
     this.x = x;
     this.y = y;
-    this.frame = 1;
-    this.movedown = function() {
-    };
+    // Kumaが生成されたときのフレーム数
+    this.frame = game.frame;
+    this.accel = 0.9;
+//    this.movedown = function() {
+//    };
 
     game.rootScene.addChild(this);
   },
-
+  movedown : function() {
+    // 加速度計算
+    // Kumaが生成されてから経過したフレーム数と加速度を乗算
+    this.y = this.accel * (game.frame - this.frame);
+    // 着地していたら止まる
+    if (this.y - 32 <= 300) {
+        this.accel = 0;
+    }
+  },
   remove : function() {
     game.rootScene.removeChild(this);
     delete this;
